@@ -18,6 +18,7 @@ class Auth extends Application {
             $this->session->set_userdata('userName',$user->name);
             $this->session->set_userdata('userRole',$user->role);
         }
+        
         redirect('/');
     }
     
