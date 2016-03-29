@@ -35,8 +35,9 @@ class Application extends CI_Controller {
 	function render()
 	{
 		$mychoices = array('menudata' => $this->makemenu());
-		$this->data['menubar'] = $this->parser->parse('_menubar', $mychoices, true);
-		$this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
+		//$this->data['menubar'] = $this->parser->parse('_menubar', $mychoices, true);
+		$this->data['menubar'] = $this->makemenu();
+                $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
 
 		// finally, build the browser page!
 		$this->data['data'] = &$this->data;
@@ -47,16 +48,26 @@ class Application extends CI_Controller {
 	function makemenu()
 	{
 		$choices = array();
-
-		$choices[] = array('name' => "Alpha", 'link' => '/alpha');
-		$choices[] = array('name' => "Beta", 'link' => '/beta');
-		$choices[] = array('name' => "Gamma", 'link' => '/gamma');
-		return $choices;
+                $choices[] = array('name' => "Alpha", 'link' => '/alpha');
+                if($this->sessions['userRole'] == NULL){
+                    return $choices;
+                }
+                if($this->sessions['userRole'] == 'user'){
+                    $choices[] = array('name' => "Beta", 'link' => '/beta');
+                    return $choices;
+                      
+                }
+                if($this->sessions['userRole'] == 'admin'){
+                    $choices[] = array('name' => "Beta", 'link' => '/beta');
+                    $choices[] = array('name' => "Gamma", 'link' => '/gamma');
+                    return $choices;
+                      
+                }
+		
 	}
        
         function restrict($roleNeeded = null){
             $userRole = $this->session->userdata('userRole');
-            $this->data['role']=$userRole;
             if ($roleNeeded != null) {
                 if (is_array($roleNeeded)) {
                     if (!in_array($userRole, $roleNeeded))
