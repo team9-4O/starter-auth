@@ -18,9 +18,10 @@ class Auth extends Application {
             $this->session->set_userdata('userName',$user->name);
             $this->session->set_userdata('userRole',$user->role);
         }
-        
+        $this->data['role']=$user->role;
+       //
         redirect('/');
-    }
+   }
     
     function logout() {
         $this->session->sess_destroy();
