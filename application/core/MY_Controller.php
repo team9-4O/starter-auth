@@ -26,6 +26,7 @@ class Application extends CI_Controller {
 		$this->data['title'] = "Top Secret Government Site"; // our default title
 		$this->errors = array();
 		$this->data['pageTitle'] = 'welcome';   // our default page
+                $this->data['sessionid'] = session_id();
 	}
 
 	/**
