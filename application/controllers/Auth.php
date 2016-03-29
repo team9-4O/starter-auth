@@ -10,6 +10,7 @@ class Auth extends Application {
         $this->render();
     }
     function submit(){
+        $this->load->model('users');
         $key = $_POST['userid'];
         $user = $this->users->get($key);
         if (password_verify($this->input->post('password'),$user->password)) {
