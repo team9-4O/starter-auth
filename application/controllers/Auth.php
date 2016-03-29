@@ -10,6 +10,7 @@ class Auth extends Application {
         $this->render();
     }
     function submit(){
+        $this->load->model('users');
         $key = $_POST['userid'];
         $user = $this->users->get($key);
         if (password_verify($this->input->post('password'),$user->password)) {
@@ -17,6 +18,7 @@ class Auth extends Application {
             $this->session->set_userdata('userName',$user->name);
             $this->session->set_userdata('userRole',$user->role);
         }
+        
         redirect('/');
     }
     
