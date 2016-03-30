@@ -35,10 +35,10 @@ class Application extends CI_Controller {
 	function render()
 	{
 		$mychoices = array('menudata' => $this->makemenu());
-		//$this->data['menubar'] = $this->parser->parse('_menubar', $mychoices, true);
-		$this->data['menubar'] = $this->makemenu();
+		$this->data['menubar'] = $this->parser->parse('_menubar', $mychoices, true);
+		//$this->data['menubar'] = $this->makemenu();
                 $this->data['content'] = $this->parser->parse($this->data['pagebody'], $this->data, true);
-
+                 
 		// finally, build the browser page!
 		$this->data['data'] = &$this->data;
 		$this->parser->parse('_template', $this->data);
@@ -49,20 +49,24 @@ class Application extends CI_Controller {
 	{
 		$choices = array();
                 $choices[] = array('name' => "Alpha", 'link' => '/alpha');
-                if($this->sessions['userRole'] == NULL){
+                if($this->session->userdata('userRole') == NULL){
+                    $choices[] = array('name' => "Login", 'link' => '/auth');
                     return $choices;
                 }
-                if($this->sessions['userRole'] == 'user'){
+                if($this->session->userdata('userRole') == 'user'){
                     $choices[] = array('name' => "Beta", 'link' => '/beta');
+                    $choices[] = array('name' => "Logout", 'link' => '/auth/logout');
                     return $choices;
                       
                 }
-                if($this->sessions['userRole'] == 'admin'){
+                if($this->session->userdata('userRole') == 'admin'){
                     $choices[] = array('name' => "Beta", 'link' => '/beta');
                     $choices[] = array('name' => "Gamma", 'link' => '/gamma');
+                    $choices[] = array('name' => "Logout", 'link' => '/auth/logout');
                     return $choices;
                       
                 }
+                return 'joseph';
 		
 	}
        
